@@ -1,0 +1,36 @@
+# Swift / Xcode
+.DS_Store
+*.xcuserstate
+*.xcworkspace
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata
+*.xcodeproj/xcuserdata
+
+# Build folders
+.build/
+DerivedData/
+.idea/
+Package.resolved
+
+# SwiftPM
+.swiftpm/
+*.swiftsourceinfo
+
+# Playground
+timeline.xctimeline
+playground.xcworkspace
+
+# Logs
+*.log
+
+# Xcode Automatically Generated Files
+*.xccheckout
+*.moved-aside
+*.xcuserstate
+
+# Others
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
