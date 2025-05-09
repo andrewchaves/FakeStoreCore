@@ -49,7 +49,6 @@ class ProductVM {
     
     func fetchProducts() {
         isLoading = true
-            do {
                 service.makeRequest(endPoint: .products, method: .GET, reponseType: [Product].self)
                     .receive(on: DispatchQueue.main)
                     .sink(receiveCompletion: { [weak self] completion in
@@ -76,13 +75,6 @@ class ProductVM {
                     self.filteredProducts = self.products
                     self.isLoading = false
                 }
-                        
-            } catch {
-                DispatchQueue.main.async {
-                    self.errorMessage = APIError.networkError(error).localizedDescription
-                    self.isLoading = false
-                }
-            }
     }
     
     func filterProducts(category: String?) {

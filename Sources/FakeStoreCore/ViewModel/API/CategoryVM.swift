@@ -21,7 +21,6 @@ class CategorytVM {
     
     func fetchCategories() {
         isLoading = true
-            do {
                 service.makeRequest(endPoint: .categories, method: .GET, reponseType: [String].self)
                     .receive(on: DispatchQueue.main)
                     .sink(receiveCompletion: { [weak self] completion in
@@ -37,8 +36,5 @@ class CategorytVM {
                         }
                     })
                     .store(in: &cancellables)
-            } catch {
-                self.errorMessage = APIError.networkError(error).localizedDescription
-            }
     }
 }
