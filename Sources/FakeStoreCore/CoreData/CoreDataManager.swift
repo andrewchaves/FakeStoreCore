@@ -11,18 +11,21 @@ class CoreDataManager {
     let persistentContainer: NSPersistentContainer
     let backgroundContext: NSManagedObjectContext
     
-    init(modelName: String) {
-        persistentContainer = NSPersistentContainer(name: modelName)
-        
-        persistentContainer.loadPersistentStores {_, error in
-            if let error = error {
-                //TODO: - Implement a better error handling
-                fatalError("Failed to load Core Data stack: \(error)")
+    public init(modelName: String) {
+            guard let modelURL = Bundle.module.url(forResource: modelName, withExtension: "momd"),
+                  let managedObjectModel = NSManagedObjectModel(contentsOf: modelURL) else {
+                fatalError("Failed to load the Core Data model \(modelName) from the package bundle.")
             }
+
+            persistentContainer = NSPersistentContainer(name: modelName, managedObjectModel: managedObjectModel)
+
+            persistentContainer.loadPersistentStores { _, error in
+                if let error = error {
+                    fatalError("Failed to load persistent stores: \(error)")
+                }
+            }
+            backgroundContext = persistentContainer.newBackgroundContext()
         }
-        
-        backgroundContext = persistentContainer.newBackgroundContext()
-    }
     
     var viewContext: NSManagedObjectContext {
         return persistentContainer.viewContext
