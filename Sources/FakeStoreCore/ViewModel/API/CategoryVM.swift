@@ -10,16 +10,16 @@ import Combine
 
 @MainActor
 @available(macOS 10.15, *)
-class CategorytVM {
+public class CategorytVM {
     
-    @Published var categories: [Category] = []
-    @Published var isLoading: Bool = false
-    @Published var errorMessage: String?
+    @Published public var categories: [Category] = []
+    @Published public var isLoading: Bool = false
+    @Published public var errorMessage: String?
     
     private var cancellables = Set<AnyCancellable>()
     private let service = Service()
     
-    func fetchCategories() {
+    public func fetchCategories() {
         isLoading = true
                 service.makeRequest(endPoint: .categories, method: .GET, reponseType: [String].self)
                     .receive(on: DispatchQueue.main)

@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct Product: Codable {
-    var id: Int
-    var title: String
-    var price: Double
-    var description: String
-    var image: String
-    var category: String
+public struct Product: Codable {
+    public var id: Int
+    public var title: String
+    public var price: Double
+    public var description: String
+    public var image: String
+    public var category: String
 }

@@ -8,15 +8,15 @@
 import Foundation
 import Combine
 
-struct ProductForUI {
-    var id: Int
-    var title: String
-    var price: String
-    var description: String
-    var image: String
-    var category: String
+public struct ProductForUI: Identifiable {
+    public var id: Int
+    public var title: String
+    public var price: String
+    public var description: String
+    public var image: String
+    public var category: String
     
-    func toProduct() -> Product{
+    public func toProduct() -> Product{
         
         var convertedPrice: Double
         let priceNumberInString = self.price.replacingOccurrences(of: "$", with: "")
@@ -37,17 +37,19 @@ struct ProductForUI {
 
 @MainActor
 @available(macOS 10.15, *)
-class ProductVM {
+public class ProductVM {
     
-    @Published var products: [ProductForUI] = []
-    @Published var filteredProducts: [ProductForUI] = []
-    @Published var isLoading: Bool = false
-    @Published var errorMessage: String?
+    @Published public var products: [ProductForUI] = []
+    @Published public var filteredProducts: [ProductForUI] = []
+    @Published public var isLoading: Bool = false
+    @Published public var errorMessage: String?
     
     private var cancellables = Set<AnyCancellable>()
     private let service = Service()
     
-    func fetchProducts() {
+    public init() {}
+    
+    public func fetchProducts() {
         isLoading = true
                 service.makeRequest(endPoint: .products, method: .GET, reponseType: [Product].self)
                     .receive(on: DispatchQueue.main)
@@ -77,7 +79,7 @@ class ProductVM {
                 }
     }
     
-    func filterProducts(category: String?) {
+    public func filterProducts(category: String?) {
         DispatchQueue.main.async {
             if let category = category {
                 self.filteredProducts = self.products.filter {$0.category == category}

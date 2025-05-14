@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct Category: Codable {
-    var name: String
+public struct Category: Codable {
+    public var name: String
 }
