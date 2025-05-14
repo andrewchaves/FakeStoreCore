@@ -16,6 +16,15 @@ public struct ProductForUI: Identifiable {
     public var image: String
     public var category: String
     
+    public init(id: Int, title: String, price: String, description: String, image: String, category: String) {
+        self.id = id
+        self.title = title
+        self.price = price
+        self.description = description
+        self.image = image
+        self.category = category
+    }
+    
     public func toProduct() -> Product{
         
         var convertedPrice: Double

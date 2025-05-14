@@ -19,6 +19,8 @@ public class CategorytVM {
     private var cancellables = Set<AnyCancellable>()
     private let service = Service()
     
+    public init() {}
+    
     public func fetchCategories() {
         isLoading = true
                 service.makeRequest(endPoint: .categories, method: .GET, reponseType: [String].self)
