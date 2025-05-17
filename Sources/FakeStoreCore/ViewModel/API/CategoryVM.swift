@@ -10,7 +10,7 @@ import Combine
 
 @MainActor
 @available(macOS 10.15, *)
-public class CategorytVM {
+public class CategorytVM: ObservableObject {
     
     @Published public var categories: [Category] = []
     @Published public var isLoading: Bool = false

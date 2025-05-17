@@ -46,7 +46,7 @@ public struct ProductForUI: Identifiable {
 
 @MainActor
 @available(macOS 10.15, *)
-public class ProductVM {
+public class ProductVM: ObservableObject {
     
     @Published public var products: [ProductForUI] = []
     @Published public var filteredProducts: [ProductForUI] = []
