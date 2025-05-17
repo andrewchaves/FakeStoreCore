@@ -79,13 +79,13 @@ public class ProductVM: ObservableObject {
                                 category: product.category
                             )
                         }
+                        
+                        DispatchQueue.main.async {
+                            self?.filteredProducts = self?.products ?? []
+                            self?.isLoading = false
+                        }
                     })
                     .store(in: &cancellables)
-                
-                DispatchQueue.main.async {
-                    self.filteredProducts = self.products
-                    self.isLoading = false
-                }
     }
     
     public func filterProducts(category: String?) {
