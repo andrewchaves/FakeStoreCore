@@ -31,7 +31,7 @@ public class CartItemVM: CartItemViewModelProtocol {
     
     private let cartItemRepository: any CartItemRepositoryProtocol
     
-    init (cartItemRepository: CartItemRepositoryProtocol) {
+    public init (cartItemRepository: CartItemRepositoryProtocol) {
         self.cartItemRepository = cartItemRepository
         fetchCartItems()
     }
