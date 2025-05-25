@@ -7,21 +7,21 @@
 
 import CoreData
 
-protocol CartItemRepositoryProtocol {
+public protocol CartItemRepositoryProtocol {
     func addProduct(id: Int64, name: String, quantity: Int16, price: Double, image: String)
     func fetchCartItems() -> [CartItem]
     func removeProduct(id: Int64)
     func updateQuantity(for id:Int64, isUp: Bool)
 }
 
-class CartItemRepository: CartItemRepositoryProtocol {
+public class CartItemRepository: CartItemRepositoryProtocol {
     private let coreDataManager: CoreDataManager
     
     init(coreDataManager: CoreDataManager) {
         self.coreDataManager = coreDataManager
     }
     
-    func addProduct(id: Int64, name: String, quantity: Int16, price: Double, image: String) {
+    public func addProduct(id: Int64, name: String, quantity: Int16, price: Double, image: String) {
         let backgroundContext = coreDataManager.backgroundContext
         
         backgroundContext.perform {
@@ -40,7 +40,7 @@ class CartItemRepository: CartItemRepositoryProtocol {
         }
     }
     
-    func fetchCartItems() -> [CartItem]{
+    public func fetchCartItems() -> [CartItem]{
         let context = coreDataManager.viewContext
         let fetchRequest: NSFetchRequest<CartItem> = CartItem.fetchRequest()
         
@@ -53,7 +53,7 @@ class CartItemRepository: CartItemRepositoryProtocol {
         }
     }
     
-    func removeProduct(id: Int64) {
+    public func removeProduct(id: Int64) {
         let context = coreDataManager.viewContext
         let fetchRequest: NSFetchRequest<CartItem> = CartItem.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id == %lld", id as CVarArg)
@@ -70,7 +70,7 @@ class CartItemRepository: CartItemRepositoryProtocol {
         }
     }
     
-    func updateQuantity(for id:Int64, isUp: Bool) {
+    public func updateQuantity(for id:Int64, isUp: Bool) {
         let context = coreDataManager.viewContext
         let fetchRequest: NSFetchRequest<CartItem> = CartItem.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id == %lld", id as CVarArg)

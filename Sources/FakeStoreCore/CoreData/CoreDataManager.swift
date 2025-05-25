@@ -7,7 +7,7 @@
 
 import CoreData
 
-class CoreDataManager {
+public class CoreDataManager {
     let persistentContainer: NSPersistentContainer
     let backgroundContext: NSManagedObjectContext
     

@@ -8,11 +8,11 @@
 import Foundation
 
 @MainActor
-final class AppContainer {
-    static let shared = AppContainer()
+public final class AppContainer {
+    public static let shared = AppContainer()
     
-    var coreDataManager: CoreDataManager
-    var cartItemRepository: CartItemRepository
+    public let coreDataManager: CoreDataManager
+    public let cartItemRepository: CartItemRepository
     
     private init() {
         self.coreDataManager = CoreDataManager(modelName: "FakeStore")
