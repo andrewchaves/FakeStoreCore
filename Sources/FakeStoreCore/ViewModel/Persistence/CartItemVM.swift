@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 @available(macOS 10.15, *)
-protocol CartItemViewModelProtocol: ObservableObject {
+public protocol CartItemViewModelProtocol: ObservableObject {
     var cartItems: [CartItem] { get }
     var cartItemsPublisher: Published<[CartItem]>.Publisher { get }
     func fetchCartItems()
@@ -22,10 +22,10 @@ protocol CartItemViewModelProtocol: ObservableObject {
 }
 
 @available(macOS 10.15, *)
-class CartItemVM: CartItemViewModelProtocol {
+public class CartItemVM: CartItemViewModelProtocol {
     
-    @Published var cartItems: [CartItem] = []
-    var cartItemsPublisher: Published<[CartItem]>.Publisher {
+    @Published public var cartItems: [CartItem] = []
+    public var cartItemsPublisher: Published<[CartItem]>.Publisher {
         $cartItems
     }
     
@@ -36,11 +36,11 @@ class CartItemVM: CartItemViewModelProtocol {
         fetchCartItems()
     }
     
-    func fetchCartItems() {
+    public func fetchCartItems() {
         cartItems = cartItemRepository.fetchCartItems()
     }
     
-    func addProduct(_ product: ProductForUI) {
+    public func addProduct(_ product: ProductForUI) {
         let product = product.toProduct()
         if !cartItems.contains(where: { $0.id == product.id}) {
             cartItemRepository.addProduct(id: Int64(product.id),
@@ -52,26 +52,26 @@ class CartItemVM: CartItemViewModelProtocol {
         fetchCartItems()
     }
     
-    func removeCartItem(id: Int64) {
+    public func removeCartItem(id: Int64) {
         cartItemRepository.removeProduct(id: id)
         fetchCartItems()
     }
     
-    func increaseCartItemQuantity(for id: Int64) {
+    public func increaseCartItemQuantity(for id: Int64) {
         cartItemRepository.updateQuantity(for: id, isUp: true)
         fetchCartItems()
     }
     
-    func decreaseCartItemQuantity(for id: Int64) {
+    public func decreaseCartItemQuantity(for id: Int64) {
         cartItemRepository.updateQuantity(for: id, isUp: false)
         fetchCartItems()
     }
     
-    func getPriceSum() -> Double {
+    public func getPriceSum() -> Double {
         return cartItems.reduce(0.0) {$0 + $1.price}
     }
     
-    func getQuantitySum() -> Int16 {
+    public func getQuantitySum() -> Int16 {
         return cartItems.reduce(0) {$0 + $1.quantity}
     }
 }
