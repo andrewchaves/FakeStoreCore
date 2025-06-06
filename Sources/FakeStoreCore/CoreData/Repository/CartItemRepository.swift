@@ -85,6 +85,7 @@ public class CartItemRepository: CartItemRepositoryProtocol {
                     itemToBeUpdated.price = (itemToBeUpdated.price / Double(itemToBeUpdated.quantity))  * Double(itemToBeUpdated.quantity - 1)
                     itemToBeUpdated.quantity = itemToBeUpdated.quantity - 1
                 }
+                try? itemToBeUpdated.managedObjectContext?.save()
                 try context.save()
             } else {
                 print("ID not found!")
