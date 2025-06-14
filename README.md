@@ -34,7 +34,7 @@ Once added, simply:
 import FakeStoreCore
 ```
 
-## Integration
+## Roadmap
 
 - ✅ Extract business logic to a separate package.
 - ✅ Implement Core Data persistence layer.
