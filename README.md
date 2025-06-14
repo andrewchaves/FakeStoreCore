@@ -32,8 +32,9 @@ Once added, simply:
 
 ```swift
 import FakeStoreCore
+```
 
-## Roadmap
+## Integration
 
 - ✅ Extract business logic to a separate package.
 - ✅ Implement Core Data persistence layer.
