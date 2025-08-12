@@ -71,7 +71,7 @@ public class CartItemRepository: CartItemRepositoryProtocol {
     }
     
     public func updateQuantity(for id:Int64, isUp: Bool) {
-        let context = coreDataManager.viewContext
+        let context = coreDataManager.backgroundContext
         let fetchRequest: NSFetchRequest<CartItem> = CartItem.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id == %lld", id as CVarArg)
         
