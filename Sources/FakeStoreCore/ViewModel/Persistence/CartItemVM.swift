@@ -58,12 +58,10 @@ public class CartItemVM: CartItemViewModelProtocol {
     
     public func increaseCartItemQuantity(for id: Int64) {
         cartItemRepository.updateQuantity(for: id, isUp: true)
-        fetchCartItems()
     }
     
     public func decreaseCartItemQuantity(for id: Int64) {
         cartItemRepository.updateQuantity(for: id, isUp: false)
-        fetchCartItems()
     }
     
     public func getPriceSum() -> Double {
