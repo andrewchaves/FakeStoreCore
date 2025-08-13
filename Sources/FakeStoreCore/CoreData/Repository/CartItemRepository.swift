@@ -79,10 +79,8 @@ public class CartItemRepository: CartItemRepositoryProtocol {
             let items = try context.fetch(fetchRequest)
             if let itemToBeUpdated = items.first {
                 if (isUp){
-                    itemToBeUpdated.price = (itemToBeUpdated.price / Double(itemToBeUpdated.quantity))  * Double(itemToBeUpdated.quantity + 1)
                     itemToBeUpdated.quantity = itemToBeUpdated.quantity + 1
                 } else if (itemToBeUpdated.quantity > 1) {
-                    itemToBeUpdated.price = (itemToBeUpdated.price / Double(itemToBeUpdated.quantity))  * Double(itemToBeUpdated.quantity - 1)
                     itemToBeUpdated.quantity = itemToBeUpdated.quantity - 1
                 }
                 try? itemToBeUpdated.managedObjectContext?.save()
