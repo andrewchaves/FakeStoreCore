@@ -48,18 +48,22 @@ public class CartItemVM: CartItemViewModelProtocol {
                                           price: product.price,
                                           image: product.image)
         }
+        fetchCartItems()
     }
     
     public func removeCartItem(id: Int64) {
         cartItemRepository.removeProduct(id: id)
+        fetchCartItems()
     }
     
     public func increaseCartItemQuantity(for id: Int64) {
         cartItemRepository.updateQuantity(for: id, isUp: true)
+        fetchCartItems()
     }
     
     public func decreaseCartItemQuantity(for id: Int64) {
         cartItemRepository.updateQuantity(for: id, isUp: false)
+        fetchCartItems()
     }
     
     public func getPriceSum() -> Double {
