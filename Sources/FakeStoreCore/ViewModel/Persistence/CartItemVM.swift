@@ -65,7 +65,7 @@ public class CartItemVM: CartItemViewModelProtocol {
     }
     
     public func getPriceSum() -> Double {
-        return cartItems.reduce(0.0) {$0 + $1.price}
+        return cartItems.reduce(0.0) {$0 + ($1.price * Double($1.quantity))}
     }
     
     public func getQuantitySum() -> Int16 {
