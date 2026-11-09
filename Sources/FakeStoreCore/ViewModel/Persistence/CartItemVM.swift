@@ -9,11 +9,12 @@ import Foundation
 import Combine
 
 @available(macOS 10.15, *)
+@MainActor
 public protocol CartItemViewModelProtocol: ObservableObject {
     var cartItems: [CartItem] { get }
     var cartItemsPublisher: Published<[CartItem]>.Publisher { get }
     func fetchCartItems()
-    func addProduct(_ product: ProductForUI)
+    func addProduct(_ product: ProductForUI) async throws
     func removeCartItem(id: Int64)
     func increaseCartItemQuantity(for id: Int64)
     func decreaseCartItemQuantity(for id: Int64)
@@ -22,6 +23,7 @@ public protocol CartItemViewModelProtocol: ObservableObject {
 }
 
 @available(macOS 10.15, *)
+@MainActor
 public class CartItemVM: CartItemViewModelProtocol {
     
     @Published public var cartItems: [CartItem] = []
@@ -39,10 +41,10 @@ public class CartItemVM: CartItemViewModelProtocol {
         cartItems = cartItemRepository.fetchCartItems()
     }
     
-    public func addProduct(_ product: ProductForUI) {
+    public func addProduct(_ product: ProductForUI)  async throws {
         let product = product.toProduct()
         if !cartItems.contains(where: { $0.id == product.id}) {
-            cartItemRepository.addProduct(id: Int64(product.id),
+            try await cartItemRepository.addProduct(id: Int64(product.id),
                                           name: product.title,
                                           quantity:  1,
                                           price: product.price,

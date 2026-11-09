@@ -7,13 +7,15 @@
 
 import CoreData
 
+@MainActor
 public protocol CartItemRepositoryProtocol {
-    func addProduct(id: Int64, name: String, quantity: Int16, price: Double, image: String)
+    func addProduct(id: Int64, name: String, quantity: Int16, price: Double, image: String) async throws
     func fetchCartItems() -> [CartItem]
     func removeProduct(id: Int64)
     func updateQuantity(for id:Int64, isUp: Bool)
 }
 
+@MainActor
 public class CartItemRepository: CartItemRepositoryProtocol {
     private let coreDataManager: CoreDataManager
     
@@ -21,10 +23,11 @@ public class CartItemRepository: CartItemRepositoryProtocol {
         self.coreDataManager = coreDataManager
     }
     
-    public func addProduct(id: Int64, name: String, quantity: Int16, price: Double, image: String) {
+    public func addProduct(id: Int64, name: String, quantity: Int16, price: Double, image: String) async throws {
+        
         let backgroundContext = coreDataManager.backgroundContext
         
-        backgroundContext.perform {
+        try await backgroundContext.perform {
             let newCartItem = CartItem(context: backgroundContext)
             newCartItem.id = id
             newCartItem.name = name
@@ -32,11 +35,7 @@ public class CartItemRepository: CartItemRepositoryProtocol {
             newCartItem.price = price
             newCartItem.image = image
             
-            do {
-                try backgroundContext.save()
-            } catch {
-                print("Error saving the \(newCartItem.name ?? "") to cart")
-            }
+            try backgroundContext.save()
         }
     }
     
