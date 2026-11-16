@@ -11,8 +11,8 @@ import CoreData
 public protocol CartItemRepositoryProtocol {
     func addProduct(id: Int64, name: String, quantity: Int16, price: Double, image: String) async throws
     func fetchCartItems() throws -> [CartItem]
-    func removeProduct(id: Int64)
-    func updateQuantity(for id:Int64, isUp: Bool)
+    func removeProduct(id: Int64) throws
+    func updateQuantity(for id:Int64, isUp: Bool) throws
 }
 
 @MainActor
@@ -49,43 +49,37 @@ public class CartItemRepository: CartItemRepositoryProtocol {
         
     }
     
-    public func removeProduct(id: Int64) {
+    public func removeProduct(id: Int64) throws {
         let context = coreDataManager.viewContext
         let fetchRequest: NSFetchRequest<CartItem> = CartItem.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id == %lld", id as CVarArg)
         
-        do {
-            let cartItems = try context.fetch(fetchRequest)
-            if let itemToRemove = cartItems.first {
-                context.delete(itemToRemove)
-                try context.save()
-            }
-        } catch {
-            //TODO: - Improve error handling
-            print(error)
+        let cartItems = try context.fetch(fetchRequest)
+        
+        if let itemToRemove = cartItems.first {
+            context.delete(itemToRemove)
+            try context.save()
         }
     }
     
-    public func updateQuantity(for id:Int64, isUp: Bool) {
+    public func updateQuantity(for id:Int64, isUp: Bool) throws {
+        
         let context = coreDataManager.viewContext
         let fetchRequest: NSFetchRequest<CartItem> = CartItem.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id == %lld", id as CVarArg)
         
-        do {
-            let items = try context.fetch(fetchRequest)
-            if let itemToBeUpdated = items.first {
-                if (isUp){
-                    itemToBeUpdated.quantity = itemToBeUpdated.quantity + 1
-                } else if (itemToBeUpdated.quantity > 1) {
-                    itemToBeUpdated.quantity = itemToBeUpdated.quantity - 1
-                }
-                try context.save()
-            } else {
-                print("ID not found!")
-            }
-        } catch {
-            //TODO: - Improve error handling
-            print("Error: \(error)")
+        let items = try context.fetch(fetchRequest)
+        
+        guard let itemToBeUpdated = items.first  else {
+            return
         }
+        
+        if (isUp){
+            itemToBeUpdated.quantity = itemToBeUpdated.quantity + 1
+        } else if (itemToBeUpdated.quantity > 1) {
+            itemToBeUpdated.quantity = itemToBeUpdated.quantity - 1
+        }
+        
+        try context.save()
     }
 }
