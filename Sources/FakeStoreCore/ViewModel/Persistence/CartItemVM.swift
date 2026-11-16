@@ -13,9 +13,9 @@ import Combine
 public protocol CartItemViewModelProtocol: ObservableObject {
     var cartItems: [CartItem] { get }
     var cartItemsPublisher: Published<[CartItem]>.Publisher { get }
-    func fetchCartItems()
+    func fetchCartItems() throws
     func addProduct(_ product: ProductForUI) async throws
-    func removeCartItem(id: Int64)
+    func removeCartItem(id: Int64) throws
     func increaseCartItemQuantity(for id: Int64)
     func decreaseCartItemQuantity(for id: Int64)
     func getPriceSum() -> Double
@@ -37,8 +37,8 @@ public class CartItemVM: CartItemViewModelProtocol {
         self.cartItemRepository = cartItemRepository
     }
     
-    public func fetchCartItems() {
-        cartItems = cartItemRepository.fetchCartItems()
+    public func fetchCartItems() throws {
+        cartItems = try cartItemRepository.fetchCartItems()
     }
     
     public func addProduct(_ product: ProductForUI)  async throws {
@@ -50,12 +50,12 @@ public class CartItemVM: CartItemViewModelProtocol {
                                           price: product.price,
                                           image: product.image)
         }
-        fetchCartItems()
+        try fetchCartItems()
     }
     
-    public func removeCartItem(id: Int64) {
+    public func removeCartItem(id: Int64) throws {
         cartItemRepository.removeProduct(id: id)
-        fetchCartItems()
+        try fetchCartItems()
     }
     
     public func increaseCartItemQuantity(for id: Int64) {

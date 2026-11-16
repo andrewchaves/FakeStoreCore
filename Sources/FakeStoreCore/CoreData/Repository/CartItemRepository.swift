@@ -10,7 +10,7 @@ import CoreData
 @MainActor
 public protocol CartItemRepositoryProtocol {
     func addProduct(id: Int64, name: String, quantity: Int16, price: Double, image: String) async throws
-    func fetchCartItems() -> [CartItem]
+    func fetchCartItems() throws -> [CartItem]
     func removeProduct(id: Int64)
     func updateQuantity(for id:Int64, isUp: Bool)
 }
@@ -39,17 +39,14 @@ public class CartItemRepository: CartItemRepositoryProtocol {
         }
     }
     
-    public func fetchCartItems() -> [CartItem]{
+    public func fetchCartItems() throws -> [CartItem]{
+        
         let context = coreDataManager.viewContext
+        
         let fetchRequest: NSFetchRequest<CartItem> = CartItem.fetchRequest()
         
-        do {
-            return try context.fetch(fetchRequest)
-        } catch {
-            //TODO: - Improve error handling
-            print(error)
-            return []
-        }
+        return try context.fetch(fetchRequest)
+        
     }
     
     public func removeProduct(id: Int64) {
